@@ -1,0 +1,123 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --color-brand-bg: #f8fafc;
+  --color-brand-surface: rgba(255, 255, 255, 0.7);
+  --color-brand-border: rgba(255, 255, 255, 0.5);
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-cyan-500;
+  }
+  .text-gradient-dark {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-slate-800 to-slate-500;
+  }
+  .glass-panel {
+    @apply bg-white/60 backdrop-blur-xl border border-white shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-3xl;
+  }
+  .glass-button {
+    @apply bg-white/80 backdrop-blur-md border border-white/50 shadow-sm hover:bg-white hover:shadow-md transition-all;
+  }
+  .glow-bg {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: 0;
+    pointer-events: none;
+  }
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: var(--color-brand-bg);
+  color: #0f172a;
+  overflow-x: hidden;
+}
+
+.prose-custom h2 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 0.75rem;
+  letter-spacing: -0.025em;
+}
+
+.prose-custom h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.prose-custom p {
+  color: #475569;
+  line-height: 1.75;
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+}
+
+.prose-custom ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.prose-custom li {
+  color: #475569;
+  line-height: 1.75;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.prose-custom a {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.15s;
+}
+
+.prose-custom a:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+.prose-custom strong {
+  color: #1e293b;
+  font-weight: 700;
+}
+
+.prose-custom table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.875rem;
+}
+
+.prose-custom th {
+  text-align: left;
+  font-weight: 700;
+  color: #0f172a;
+  padding: 0.75rem 1rem;
+  border-bottom: 2px solid #e2e8f0;
+  background-color: #f8fafc;
+}
+
+.prose-custom td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e2e8f0;
+  color: #475569;
+  font-weight: 500;
+}
+
+.prose-custom section {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.prose-custom section:last-child {
+  border-bottom: none;
+}
