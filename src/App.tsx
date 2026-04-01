@@ -4,7 +4,7 @@
  */
 
 import { motion } from 'motion/react';
-import { ArrowRight, CheckCircle2, ChevronRight, Activity, Dumbbell, Moon, Pill, AlarmClock, Flame, TrendingUp, Camera, Cloud, Sparkles, Palette, Brain, Target, CalendarDays, Check, BarChart3, Plus, Apple, Play } from 'lucide-react';
+import { ArrowRight, Activity, Dumbbell, Pill, AlarmClock, Flame, TrendingUp, Camera, Cloud, Palette, Brain, Target, CalendarDays, Check, BarChart3, Plus, Apple, Play } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function App() {
@@ -13,12 +13,7 @@ export default function App() {
       {/* Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/60 bg-white/40 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-blue-500/20">
-              <Dumbbell className="w-4 h-4 text-white" />
-            </div>
-            <span className="font-bold text-xl tracking-tight text-slate-800">PROTOCOL</span>
-          </div>
+          <span className="font-bold text-xl tracking-tight text-slate-800">PROTOCOL</span>
           <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-500">
             <a href="#core" className="hover:text-blue-600 transition-colors">Core Experience</a>
             <a href="#discipline" className="hover:text-blue-600 transition-colors">Discipline</a>
@@ -43,10 +38,6 @@ export default function App() {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-button text-sm text-blue-700 mb-8 font-semibold">
-                <Sparkles className="w-4 h-4 text-blue-600" />
-                The All-In-One Training OS
-              </div>
               <h1 className="text-5xl md:text-7xl font-extrabold tracking-tight leading-[1.1] mb-6 text-slate-900">
                 Consistency made <br/>
                 <span className="text-gradient">simple & rewarding.</span>
@@ -419,28 +410,24 @@ export default function App() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid sm:grid-cols-2 gap-x-12 gap-y-6 max-w-3xl mx-auto">
               {[
-                { title: "Cloud Backup & Sync", desc: "Seamless continuity when switching phones and safer long-term history.", icon: <Cloud className="w-6 h-6 text-blue-400" /> },
-                { title: "Deeper Analytics", desc: "Advanced performance and recovery correlations for serious optimization.", icon: <Activity className="w-6 h-6 text-cyan-400" /> },
-                { title: "Unlimited Photos", desc: "Remove limits so your long-term transformation is fully documented.", icon: <Camera className="w-6 h-6 text-purple-400" /> },
-                { title: "Personalization", desc: "Custom themes and profile flair (including GIF avatars) to make the app yours.", icon: <Palette className="w-6 h-6 text-pink-400" /> },
-                { title: "AI Weight Prediction", desc: "Faster workouts, less guesswork, and better day-to-day decision-making.", icon: <Brain className="w-6 h-6 text-emerald-400" />, highlight: true },
+                { title: "Cloud Backup & Sync", desc: "Seamless continuity across devices and safer long-term history.", icon: <Cloud className="w-5 h-5 text-blue-400" /> },
+                { title: "Deeper Analytics", desc: "Advanced performance and recovery correlations.", icon: <Activity className="w-5 h-5 text-cyan-400" /> },
+                { title: "Unlimited Photos", desc: "Fully document your long-term transformation.", icon: <Camera className="w-5 h-5 text-purple-400" /> },
+                { title: "Personalization", desc: "Custom themes, profile flair, and GIF avatars.", icon: <Palette className="w-5 h-5 text-pink-400" /> },
+                { title: "AI Weight Prediction", desc: "Smarter suggestions, less guesswork each session.", icon: <Brain className="w-5 h-5 text-emerald-400" /> },
               ].map((feature, i) => (
-                <div key={i} className={`p-8 rounded-3xl border ${feature.highlight ? 'bg-gradient-to-br from-blue-900/50 to-slate-800 border-blue-500/50 shadow-[0_0_30px_rgba(59,130,246,0.2)] md:col-span-2 lg:col-span-1' : 'bg-white/5 border-white/10 hover:bg-white/10 transition-colors'}`}>
-                  <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center mb-6 border border-white/10">
+                <div key={i} className="flex items-start gap-4 py-3">
+                  <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0 border border-white/10">
                     {feature.icon}
                   </div>
-                  <h3 className="text-xl font-bold mb-3">{feature.title}</h3>
-                  <p className="text-slate-400 font-medium leading-relaxed">{feature.desc}</p>
+                  <div>
+                    <h3 className="font-bold text-white mb-1">{feature.title}</h3>
+                    <p className="text-sm text-slate-400 font-medium leading-relaxed">{feature.desc}</p>
+                  </div>
                 </div>
               ))}
-            </div>
-
-            <div className="mt-16 text-center">
-              <button className="bg-white text-slate-900 px-10 py-4 rounded-full font-bold hover:bg-gray-100 transition-all shadow-xl shadow-white/10 text-lg">
-                Upgrade to Pro Today
-              </button>
             </div>
           </div>
         </section>
@@ -450,16 +437,11 @@ export default function App() {
       {/* Footer */}
       <footer className="border-t border-slate-200 py-12 px-6 bg-white">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-lg bg-gradient-to-tr from-blue-600 to-cyan-500 flex items-center justify-center">
-              <Dumbbell className="w-3 h-3 text-white" />
-            </div>
-            <span className="font-bold text-lg tracking-tight text-slate-800">PROTOCOL</span>
-          </div>
+          <span className="font-bold text-lg tracking-tight text-slate-800">PROTOCOL</span>
           <div className="flex gap-6 text-sm font-semibold text-slate-500">
             <Link to="/privacy" className="hover:text-blue-600 transition-colors">Privacy Policy</Link>
             <Link to="/terms" className="hover:text-blue-600 transition-colors">Terms of Service</Link>
-            <a href="mailto:support@protocolfit.app" className="hover:text-blue-600 transition-colors">Contact</a>
+            <Link to="/support" className="hover:text-blue-600 transition-colors">Support</Link>
           </div>
           <div className="text-sm font-bold text-slate-400 uppercase tracking-wider">
             © 2026 Protocol Fitness.

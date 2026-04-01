@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Dumbbell, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 
 export default function TermsOfService() {
   useEffect(() => { window.scrollTo(0, 0); }, []);
@@ -9,12 +9,7 @@ export default function TermsOfService() {
     <div className="min-h-screen bg-brand-bg text-slate-900 selection:bg-blue-500/20">
       <nav className="fixed top-0 left-0 right-0 z-50 border-b border-white/60 bg-white/40 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 to-cyan-500 flex items-center justify-center shadow-lg shadow-blue-500/20">
-              <Dumbbell className="w-4 h-4 text-white" />
-            </div>
-            <span className="font-bold text-xl tracking-tight text-slate-800">PROTOCOL</span>
-          </Link>
+          <Link to="/" className="font-bold text-xl tracking-tight text-slate-800">PROTOCOL</Link>
           <Link to="/" className="flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-blue-600 transition-colors">
             <ArrowLeft className="w-4 h-4" />
             Back to Home
@@ -62,7 +57,7 @@ export default function TermsOfService() {
                 <li>Maintaining the confidentiality of your account credentials</li>
                 <li>All activities that occur under your account</li>
                 <li>Notifying us immediately of any unauthorized access at{' '}
-                  <a href="mailto:support@protocolfit.app">support@protocolfit.app</a>
+                  <a href="mailto:support@protocolapp.fyi">support@protocolapp.fyi</a>
                 </li>
               </ul>
               <p>
@@ -292,7 +287,7 @@ export default function TermsOfService() {
               <p>
                 Any dispute arising from these Terms or your use of the App shall first be attempted to be
                 resolved through informal negotiation by contacting us at{' '}
-                <a href="mailto:legal@protocolfit.app">legal@protocolfit.app</a>. If the dispute cannot be
+                <a href="mailto:support@protocolapp.fyi">support@protocolapp.fyi</a>. If the dispute cannot be
                 resolved informally within 60 days, either party may pursue binding arbitration under the rules
                 of the American Arbitration Association (AAA), conducted in California.
               </p>
@@ -327,8 +322,8 @@ export default function TermsOfService() {
                 If you have questions about these Terms of Service, please contact us:
               </p>
               <ul>
-                <li><strong>Email:</strong> <a href="mailto:legal@protocolfit.app">legal@protocolfit.app</a></li>
-                <li><strong>General support:</strong> <a href="mailto:support@protocolfit.app">support@protocolfit.app</a></li>
+                <li><strong>Email:</strong> <a href="mailto:support@protocolapp.fyi">support@protocolapp.fyi</a></li>
+                <li><strong>General support:</strong> <a href="mailto:support@protocolapp.fyi">support@protocolapp.fyi</a></li>
               </ul>
             </section>
           </div>
@@ -337,16 +332,11 @@ export default function TermsOfService() {
 
       <footer className="border-t border-slate-200 py-12 px-6 bg-white">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-lg bg-gradient-to-tr from-blue-600 to-cyan-500 flex items-center justify-center">
-              <Dumbbell className="w-3 h-3 text-white" />
-            </div>
-            <span className="font-bold text-lg tracking-tight text-slate-800">PROTOCOL</span>
-          </Link>
+          <Link to="/" className="font-bold text-lg tracking-tight text-slate-800">PROTOCOL</Link>
           <div className="flex gap-6 text-sm font-semibold text-slate-500">
             <Link to="/privacy" className="hover:text-blue-600 transition-colors">Privacy Policy</Link>
             <Link to="/terms" className="text-blue-600">Terms of Service</Link>
-            <a href="mailto:support@protocolfit.app" className="hover:text-blue-600 transition-colors">Contact</a>
+            <Link to="/support" className="hover:text-blue-600 transition-colors">Support</Link>
           </div>
           <div className="text-sm font-bold text-slate-400 uppercase tracking-wider">
             © 2026 Protocol Fitness.
