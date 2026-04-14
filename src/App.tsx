@@ -3,9 +3,107 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { motion } from 'motion/react';
-import { ArrowRight, Activity, Dumbbell, Pill, AlarmClock, Flame, TrendingUp, Camera, Cloud, Palette, Brain, Target, CalendarDays, Check, BarChart3, Plus, Apple, Play } from 'lucide-react';
+import { useState, useCallback } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { ArrowRight, Activity, Dumbbell, Pill, AlarmClock, Flame, TrendingUp, Camera, Cloud, Palette, Brain, Target, CalendarDays, Check, Plus, Apple, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+
+const proFeatures = [
+  {
+    title: "Cloud Backup & Sync",
+    desc: "Your data follows you. Switch phones, restore history, and never lose a workout again with automatic cloud sync.",
+    icon: <Cloud className="w-7 h-7 text-blue-600" />,
+    color: "from-blue-500/20 to-cyan-500/20",
+  },
+  {
+    title: "Deeper Analytics",
+    desc: "Unlock advanced performance correlations, recovery trends, and weekly reports that reveal what's actually driving your progress.",
+    icon: <Activity className="w-7 h-7 text-cyan-600" />,
+    color: "from-cyan-500/20 to-teal-500/20",
+  },
+  {
+    title: "Unlimited Photos",
+    desc: "Remove photo limits and fully document your transformation with unlimited progress shots, stored safely in the cloud.",
+    icon: <Camera className="w-7 h-7 text-purple-600" />,
+    color: "from-purple-500/20 to-pink-500/20",
+  },
+  {
+    title: "Personalization",
+    desc: "Make Protocol yours with 10+ premium themes, dynamic animations, and profile flair including GIF avatars.",
+    icon: <Palette className="w-7 h-7 text-pink-600" />,
+    color: "from-pink-500/20 to-rose-500/20",
+  },
+  {
+    title: "AI Weight Prediction",
+    desc: "Get intelligent weight suggestions for every set based on your recent performance, recovery, and progression trends.",
+    icon: <Brain className="w-7 h-7 text-emerald-600" />,
+    color: "from-emerald-500/20 to-green-500/20",
+  },
+];
+
+function ProCarousel() {
+  const [page, setPage] = useState(0);
+  const perPage = 2;
+  const totalPages = Math.ceil(proFeatures.length / perPage);
+
+  const next = useCallback(() => setPage((p) => (p + 1) % totalPages), [totalPages]);
+  const prev = useCallback(() => setPage((p) => (p - 1 + totalPages) % totalPages), [totalPages]);
+
+  const startIdx = page * perPage;
+  const visible = proFeatures.slice(startIdx, startIdx + perPage);
+
+  return (
+    <div>
+      <div className="relative overflow-hidden min-h-[180px]">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={page}
+            initial={{ opacity: 0, x: 60 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -60 }}
+            transition={{ duration: 0.35 }}
+            className="grid sm:grid-cols-2 gap-4"
+          >
+            {visible.map((feature, i) => (
+              <div key={i} className="glass-panel p-6 relative overflow-hidden group hover:shadow-lg transition-shadow">
+                <div className={`absolute inset-0 bg-gradient-to-br ${feature.color} opacity-0 group-hover:opacity-40 transition-opacity duration-500`} />
+                <div className="relative z-10">
+                  <div className="w-11 h-11 rounded-xl bg-gradient-to-tr from-blue-100 to-cyan-100 flex items-center justify-center mb-4 border border-blue-200/50">
+                    {feature.icon}
+                  </div>
+                  <h3 className="font-bold text-slate-900 mb-2">{feature.title}</h3>
+                  <p className="text-sm text-slate-500 font-medium leading-relaxed">{feature.desc}</p>
+                </div>
+              </div>
+            ))}
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {totalPages > 1 && (
+        <div className="flex items-center justify-between mt-8">
+          <div className="flex gap-2">
+            {Array.from({ length: totalPages }).map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setPage(i)}
+                className={`h-1.5 rounded-full transition-all duration-300 ${i === page ? 'w-8 bg-blue-500' : 'w-3 bg-slate-300 hover:bg-slate-400'}`}
+              />
+            ))}
+          </div>
+          <div className="flex gap-2">
+            <button onClick={prev} className="w-9 h-9 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 transition-colors shadow-sm">
+              <ChevronLeft className="w-4 h-4" />
+            </button>
+            <button onClick={next} className="w-9 h-9 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 transition-colors shadow-sm">
+              <ChevronRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
 export default function App() {
   return (
@@ -19,9 +117,9 @@ export default function App() {
             <a href="#discipline" className="hover:text-blue-600 transition-colors">Discipline</a>
             <a href="#pro" className="hover:text-blue-600 transition-colors">Go Pro</a>
           </div>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full text-sm font-bold transition-all shadow-md shadow-blue-600/20 hover:shadow-lg hover:shadow-blue-600/30">
+          <a href="https://apps.apple.com/us/app/protocol-gym-sleep-tracker/id6761282267" target="_blank" rel="noopener noreferrer" className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full text-sm font-bold transition-all shadow-md shadow-blue-600/20 hover:shadow-lg hover:shadow-blue-600/30">
             Get the App
-          </button>
+          </a>
         </div>
       </nav>
 
@@ -46,20 +144,13 @@ export default function App() {
                 Stop juggling notes, spreadsheets, and random apps. Protocol is your unified hub for training, recovery, and discipline.
               </p>
               <div className="flex flex-col sm:flex-row items-center gap-4">
-                <button className="w-full sm:w-auto bg-slate-900 text-white px-6 py-3.5 rounded-2xl hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/20 flex items-center justify-center gap-3 hover:-translate-y-1">
+                <a href="https://apps.apple.com/us/app/protocol-gym-sleep-tracker/id6761282267" target="_blank" rel="noopener noreferrer" className="w-full sm:w-auto bg-slate-900 text-white px-6 py-3.5 rounded-2xl hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/20 flex items-center justify-center gap-3 hover:-translate-y-1">
                   <Apple className="w-7 h-7 fill-white" />
                   <div className="text-left">
                     <div className="text-[10px] font-semibold opacity-80 leading-none mb-1">Download on the</div>
                     <div className="text-lg font-bold leading-none">App Store</div>
                   </div>
-                </button>
-                <button className="w-full sm:w-auto bg-slate-900 text-white px-6 py-3.5 rounded-2xl hover:bg-slate-800 transition-all shadow-xl shadow-slate-900/20 flex items-center justify-center gap-3 hover:-translate-y-1">
-                  <Play className="w-7 h-7 fill-white" />
-                  <div className="text-left">
-                    <div className="text-[10px] font-semibold opacity-80 leading-none mb-1">GET IT ON</div>
-                    <div className="text-lg font-bold leading-none">Google Play</div>
-                  </div>
-                </button>
+                </a>
               </div>
             </motion.div>
 
@@ -298,40 +389,151 @@ export default function App() {
                 <div className="absolute inset-0 bg-gradient-to-tr from-purple-200 to-indigo-200 rounded-3xl blur-3xl opacity-30" />
                 <div className="glass-panel p-2 relative overflow-hidden">
                   <div className="bg-slate-50 rounded-2xl border border-slate-100 p-6 shadow-inner">
-                    <div className="flex items-center justify-between mb-6">
-                      <h4 className="font-bold text-slate-800">Weekly Volume Load</h4>
-                      <BarChart3 className="w-5 h-5 text-slate-400" />
+                    <div className="mb-1">
+                      <h4 className="font-bold text-slate-800 text-lg">Exercise Progress</h4>
                     </div>
-                    
-                    {/* Chart Mockup */}
-                    <div className="flex items-end gap-3 h-40 mb-4 border-b border-slate-200 pb-2">
-                      {[40, 55, 45, 70, 65, 85, 100].map((h, i) => (
-                        <div key={i} className="flex-1 bg-purple-100 rounded-t-md relative group">
-                          <div 
-                            className="absolute bottom-0 left-0 right-0 bg-purple-500 rounded-t-md transition-all" 
-                            style={{ height: `${h}%` }}
-                          />
+                    <div className="mb-4">
+                      <div className="text-sm font-bold text-slate-800">Bench Press</div>
+                      <div className="text-xs text-slate-500 font-medium">Chest · Every ~8 days · Progressing</div>
+                    </div>
+
+                    <div className="bg-white rounded-xl border border-slate-100 p-4 mb-4 shadow-sm">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">Weight Progression</span>
+                        <div className="flex gap-1">
+                          {['3M', '6M', '1Y'].map((label) => (
+                            <button key={label} className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${label === '6M' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-slate-600'}`}>
+                              {label}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                      <div className="flex items-baseline gap-2 mb-3">
+                        <span className="text-3xl font-extrabold text-slate-900">225</span>
+                        <span className="text-sm font-bold text-slate-500">lbs</span>
+                        <span className="text-sm font-bold text-emerald-500 ml-1">+60 lbs</span>
+                      </div>
+
+                      <svg viewBox="0 0 300 80" className="w-full h-20" preserveAspectRatio="none">
+                        <defs>
+                          <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.15" />
+                            <stop offset="100%" stopColor="#3b82f6" stopOpacity="0" />
+                          </linearGradient>
+                        </defs>
+                        <path d="M0,70 L50,62 L100,55 L150,45 L200,30 L250,18 L300,8 L300,80 L0,80 Z" fill="url(#chartGrad)" />
+                        <polyline points="0,70 50,62 100,55 150,45 200,30 250,18 300,8" fill="none" stroke="#3b82f6" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                        <circle cx="300" cy="8" r="4" fill="#3b82f6" />
+                        <circle cx="300" cy="8" r="7" fill="#3b82f6" fillOpacity="0.2" />
+                      </svg>
+                      <div className="flex justify-between text-[10px] font-bold text-slate-400 mt-1">
+                        <span>Jan 9</span><span>Feb 12</span><span>Mar 8</span>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-4 gap-2">
+                      {[
+                        { value: '225', sub: 'lbs', label: 'Est. 1RM' },
+                        { value: '11', sub: '', label: 'Sessions' },
+                        { value: '3.5k', sub: '', label: 'Avg Vol' },
+                        { value: '60', sub: 'lbs', label: 'Gained' },
+                      ].map((stat, i) => (
+                        <div key={i} className="bg-white rounded-xl p-3 border border-slate-100 shadow-sm text-center">
+                          <div className="flex items-baseline justify-center gap-0.5">
+                            <span className="text-sm font-extrabold text-slate-800">{stat.value}</span>
+                            {stat.sub && <span className="text-[10px] font-bold text-slate-400">{stat.sub}</span>}
+                          </div>
+                          <div className="text-[10px] font-bold text-slate-400 mt-0.5">{stat.label}</div>
                         </div>
                       ))}
                     </div>
-                    <div className="flex justify-between text-xs font-bold text-slate-400 mb-6 px-1">
-                      <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Feature 4: Supplements */}
+            <div className="grid lg:grid-cols-2 gap-16 items-center mt-32">
+              <div className="order-1 lg:order-1 relative">
+                <div className="absolute inset-0 bg-gradient-to-tr from-cyan-200 to-teal-200 rounded-3xl blur-3xl opacity-30" />
+                <div className="glass-panel p-2 relative overflow-hidden">
+                  <div className="bg-slate-50 rounded-2xl border border-slate-100 p-6 shadow-inner">
+                    <div className="flex items-center justify-between mb-5">
+                      <div>
+                        <h4 className="font-bold text-slate-800 text-lg">The Stack</h4>
+                        <p className="text-xs text-slate-500 font-medium">Supplement Tracking</p>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <div className="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
+                          <Check className="w-4 h-4 text-emerald-600" />
+                        </div>
+                        <span className="text-xs font-bold text-emerald-600">100%</span>
+                      </div>
                     </div>
 
-                    {/* Coaching Card */}
-                    <div className="bg-white rounded-xl p-4 border border-purple-100 shadow-sm flex gap-4 items-start">
-                      <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0 mt-1">
-                        <Brain className="w-5 h-5 text-purple-600" />
-                      </div>
-                      <div>
-                        <h5 className="font-bold text-slate-800 text-sm mb-1">Coach Suggestion</h5>
-                        <p className="text-xs text-slate-600 leading-relaxed font-medium">
-                          Your recovery score is <span className="text-emerald-600 font-bold">92%</span> today. Based on your last session, we recommend pushing your Squat working weight to <span className="text-purple-600 font-bold">315 lbs</span>.
-                        </p>
-                      </div>
+                    <div className="space-y-3">
+                      {[
+                        { name: 'Pre-Workout Stack', count: 3, timing: 'Pre-Workout', expanded: false },
+                        { name: 'Sleep Stack', count: 3, timing: 'Before Bed', expanded: true, items: [
+                          { name: 'Magnesium Glycinate', dose: '400mg' },
+                          { name: 'L-Theanine', dose: '200mg' },
+                          { name: 'Zinc', dose: '30mg' },
+                        ]},
+                        { name: 'Daily Stack', count: 3, timing: 'Morning', expanded: true, items: [
+                          { name: 'Creatine Monohydrate', dose: '5g' },
+                          { name: 'Fish Oil', dose: '2g' },
+                          { name: 'Vitamin D3', dose: '5000IU' },
+                        ]},
+                      ].map((stack, i) => (
+                        <div key={i} className="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+                          <div className="flex items-center justify-between p-3">
+                            <div className="flex items-center gap-2">
+                              <div className={`w-2 h-2 rounded-full ${i === 0 ? 'bg-orange-400' : i === 1 ? 'bg-indigo-400' : 'bg-cyan-400'}`} />
+                              <div>
+                                <span className="text-sm font-bold text-slate-800">{stack.name}</span>
+                                <span className="text-[10px] text-slate-400 font-medium ml-2">{stack.count} supplements · {stack.timing}</span>
+                              </div>
+                            </div>
+                            {!stack.expanded && (
+                              <span className="text-[10px] font-bold text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-md">Logged</span>
+                            )}
+                          </div>
+                          {stack.expanded && stack.items && (
+                            <div className="border-t border-slate-100 px-3 pb-3 pt-2 space-y-2">
+                              {stack.items.map((item, j) => (
+                                <div key={j} className="flex items-center justify-between">
+                                  <span className="text-xs text-slate-600 font-medium">{item.name}</span>
+                                  <span className="text-xs font-bold text-slate-800">{item.dose}</span>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
+              </div>
+              <div className="order-2 lg:order-2">
+                <div className="w-12 h-12 rounded-full bg-cyan-100 flex items-center justify-center mb-6 border border-cyan-200">
+                  <Pill className="w-5 h-5 text-cyan-600" />
+                </div>
+                <h2 className="text-4xl font-extrabold mb-6 text-slate-900 tracking-tight">
+                  Your supplement stack, <br/> on autopilot.
+                </h2>
+                <p className="text-slate-600 text-lg mb-8 leading-relaxed font-medium">
+                  Build custom stacks, get timed reminders so you never miss a dose, and track what you take and when. Finally bring structure to your supplement routine.
+                </p>
+                <ul className="space-y-4">
+                  {['Custom stacks with dosage tracking', 'Timed reminders for each stack', 'Full adherence history & streaks'].map((item, i) => (
+                    <li key={i} className="flex items-center gap-3 text-slate-700 font-semibold text-sm">
+                      <div className="w-5 h-5 rounded-full bg-cyan-500/10 flex items-center justify-center text-cyan-600">
+                        <Check className="w-3 h-3" />
+                      </div>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
 
@@ -394,41 +596,24 @@ export default function App() {
           </div>
         </section>
 
-        {/* Section 3: Premium (Go Pro) Upsell */}
-        <section id="pro" className="py-32 px-6 bg-slate-900 text-white relative rounded-t-[3rem] overflow-hidden">
-          <div className="glow-bg w-[800px] h-[400px] bg-blue-600/20 top-0 left-1/2 -translate-x-1/2" />
-          <div className="max-w-7xl mx-auto relative z-10">
-            <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 border border-white/20 text-sm text-blue-300 mb-6 font-bold uppercase tracking-wider">
+        {/* Section 3: Premium (Go Pro) */}
+        <section id="pro" className="py-32 px-6 relative overflow-hidden">
+          <div className="glow-bg w-[800px] h-[600px] bg-blue-400/20 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+          <div className="glow-bg w-[500px] h-[500px] bg-cyan-300/20 bottom-0 right-0 translate-x-1/4 translate-y-1/4" />
+          <div className="max-w-5xl mx-auto relative z-10">
+            <div className="text-center mb-14">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass-button text-sm text-blue-700 mb-6 font-bold uppercase tracking-wider">
                 Protocol Pro
               </div>
-              <h2 className="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight">
+              <h2 className="text-3xl md:text-5xl font-extrabold mb-4 tracking-tight text-slate-900">
                 Unlock your full potential
               </h2>
-              <p className="text-slate-400 font-medium max-w-2xl mx-auto text-lg">
-                Take your training to the absolute limit with advanced analytics, AI predictions, and seamless cloud syncing.
+              <p className="text-slate-500 font-medium max-w-xl mx-auto text-lg">
+                Advanced analytics, AI predictions, and seamless cloud syncing.
               </p>
             </div>
 
-            <div className="grid sm:grid-cols-2 gap-x-12 gap-y-6 max-w-3xl mx-auto">
-              {[
-                { title: "Cloud Backup & Sync", desc: "Seamless continuity across devices and safer long-term history.", icon: <Cloud className="w-5 h-5 text-blue-400" /> },
-                { title: "Deeper Analytics", desc: "Advanced performance and recovery correlations.", icon: <Activity className="w-5 h-5 text-cyan-400" /> },
-                { title: "Unlimited Photos", desc: "Fully document your long-term transformation.", icon: <Camera className="w-5 h-5 text-purple-400" /> },
-                { title: "Personalization", desc: "Custom themes, profile flair, and GIF avatars.", icon: <Palette className="w-5 h-5 text-pink-400" /> },
-                { title: "AI Weight Prediction", desc: "Smarter suggestions, less guesswork each session.", icon: <Brain className="w-5 h-5 text-emerald-400" /> },
-              ].map((feature, i) => (
-                <div key={i} className="flex items-start gap-4 py-3">
-                  <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center flex-shrink-0 border border-white/10">
-                    {feature.icon}
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-white mb-1">{feature.title}</h3>
-                    <p className="text-sm text-slate-400 font-medium leading-relaxed">{feature.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+            <ProCarousel />
           </div>
         </section>
 
